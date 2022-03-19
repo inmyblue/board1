@@ -5,22 +5,20 @@ const bcrypt = require("bcrypt")
 const moment = require("moment")
 
 router.get("/", async (req, res)=>{ // 게시글 전체 불러오기
-    const articles = await Article.find()
+    const articles = await Article.find().sort({datetime : -1})
 
-    res.status(200).render('board',{
-        articles
-    })
+    res.status(200).render('board',{ articles })
 })
 
 router.get("/write", async (req, res) =>{ // 작성페이지
-    return res.render('write')
+    res.render('write')
 })
 
 router.get("/write/:article_id", async (req, res)=>{
     const { article_id } = req.params
     const [ article ] = await Article.find({article_id : Number(article_id)})
 
-    return res.render('write',{ article })
+    res.render('write',{ article })
 })
 
 router.post("/", async (req, res) => { // 게시글 작성하기
