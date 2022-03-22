@@ -3,6 +3,7 @@ const connect = require("./models")
 const cors = require("cors")
 const app = express()
 const port = 3000
+require('dotenv').config();
 
 // ejs setting
 app.set('views',__dirname+'/views')
