@@ -2,8 +2,8 @@ const mongoose = require("mongoose")
 const connect = () => {
     const mongooseId = process.env.MONGO_ID
     const mongoosePw = process.env.MONGO_PWD
-    mongoose.connect("mongodb://bluemong:9713775a!@localhost:27017/board", {ignoreUndefined : true}).catch((err)=>{
-        console.error(err)
+    mongoose.connect("mongodb://bluemong:9713775a!@52.79.81.116:27017/board?authSource=admin&authMechanism=SCRAM-SHA-1", {ignoreUndefined : true}).catch((err)=>{
+        if (err) throw err; console.log('데이터베이스에 연결되었습니다. : ' + databaseUrl);
     })
     console.log("mongoDB connected")
 }
