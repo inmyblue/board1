@@ -5,7 +5,6 @@ const connect = () => {
     mongoose.connect(`mongodb://${mongooseId}:${mongoosePw}@localhost:27017/board?authSource=admin&authMechanism=SCRAM-SHA-1`, {ignoreUndefined : true}).catch((err)=>{
         if (err) throw err; console.log('데이터베이스에 연결되었습니다. : ' + databaseUrl);
     })
-    console.log("mongoDB connected")
 }
 
 module.exports = connect

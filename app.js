@@ -1,6 +1,7 @@
 const express = require("express")
 const connect = require("./models")
 const cors = require("cors")
+const helmet = require("helmet");
 const app = express()
 const port = 3000
 require('dotenv').config();
@@ -19,6 +20,9 @@ connect()
 app.use(express.static('views'))
 app.use(express.json())
 app.use(express.urlencoded())
+app.use(helmet({
+    contentSecurityPolicy: false,
+}))
 app.use(cors())
 app.use("/board", [boardRouter])
 
