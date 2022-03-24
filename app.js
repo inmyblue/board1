@@ -1,8 +1,7 @@
 const express = require("express")
 const connect = require("./models")
 const cors = require("cors")
-const crypto = require("crypto")
-const helmet = require("helmet");
+const xXssProtection = require("x-xss-protection");
 const app = express()
 const port = 3000
 require('dotenv').config();
@@ -21,21 +20,11 @@ connect()
 app.use(express.static('views'))
 app.use(express.json())
 app.use(express.urlencoded())
-app.use((req, res, next) => {
-    res.locals.cspNonce = crypto.randomBytes(16).toString("hex");
+app.use(xXssProtection()); // XSS 프로텍션
+app.use(function (req, res, next) { //x-Powerd-By 제거
+    res.removeHeader("X-Powered-By");
     next();
-  });
-app.use(helmet({
-    contentSecurityPolicy: {
-        directives : {
-            defaultSrc : ["'self'"],
-            scriptSrc : ["'self'", "*.bootstrapcdn.com", "*.googleapis.com", "*.jsdelivr.net",],
-            scriptSrcAttr : ["'self'", "'unsafe-inline'"],
-        }
-    }
-}))
-
-// app.use(helmet()) 
+    });
 app.use(cors())
 app.use("/board", [boardRouter])
 
