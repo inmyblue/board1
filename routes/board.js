@@ -6,6 +6,7 @@ const moment = require("moment")
 //
 const Article = require("../models/article")
 const articleValidation = require("../models/validations/articleValidation")
+const sanitizer = require("../models/validations/sanitizehtml")
 
 router.get("/", async (req, res)=>{ // 게시글 전체 불러오기
     const articles = await Article.find().sort({datetime : -1})
@@ -24,7 +25,7 @@ router.get("/write/:article_id", async (req, res)=>{
     res.render('write',{ article })
 })
 
-router.post("/", articleValidation.articlePost, async (req, res) => { // 게시글 작성하기
+router.post("/", sanitizer.sanitizer, articleValidation.articlePost, async (req, res) => { // 게시글 작성하기
     const { title, content, userName, password} = req.body
     const datetime = moment().format("YYYY-MM-DD HH:mm:ss")
     const hashedPw = bcrypt.hashSync(password, 10)

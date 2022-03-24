@@ -1,7 +1,7 @@
 const express = require("express")
 const connect = require("./models")
 const cors = require("cors")
-const xXssProtection = require("x-xss-protection");
+
 const app = express()
 const port = 3000
 require('dotenv').config();
@@ -20,7 +20,6 @@ connect()
 app.use(express.static('views'))
 app.use(express.json())
 app.use(express.urlencoded())
-app.use(xXssProtection()); // XSS 프로텍션
 app.use(function (req, res, next) { //x-Powerd-By 제거
     res.removeHeader("X-Powered-By");
     next();

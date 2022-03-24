@@ -20,6 +20,6 @@
     "moment": "^2.29.1",
     "mongoose": "^6.2.7",
     "mongoose-sequence": "^5.3.1",
-    "x-xss-protection": "^2.0.0"
+    "sanitize-html": "^2.7.0"
   }
 }
