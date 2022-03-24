@@ -45,6 +45,8 @@ function updateArticle(article_id){
             }else{
                 alert(response['msg'])
             }
+        },error : function(error){
+            alert(error.responseJSON.msg)
         }
     })
 }

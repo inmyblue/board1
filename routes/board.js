@@ -40,7 +40,7 @@ router.post("/", articleValidation.articlePost, async (req, res) => { // 게시�
     res.status(201).json({ success : true, msg : '작성이 완료되었습니다'})
 })
 
-router.put("/:article_id", async (req, res) => {
+router.put("/:article_id", articleValidation.articlePost, async (req, res) => {
     const { article_id } = req.params
     const { title, content, userName, password } = req.body
     const datetime = moment().format("YYYY-MM-DD HH:mm:ss")
