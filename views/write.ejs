@@ -14,16 +14,18 @@
                 <div class="page-header">
                     <h1>글 작성하기<span style="float : right;">
                         <% if(locals.article) {%>
-                            <button type="submit" class="btn btn-primary btn-lg" form="w_article">수정완료</button>
+                            <button type="button" class="btn btn-primary btn-lg" form="w_article"
+                            onclick="updateArticle(<%=article.article_id%>)">수정완료</button>
                             <button type="button" class="btn btn-primary btn-lg" 
                             onclick="deleteArticle(<%=article.article_id%>)">삭제하기</button>
                         <% } else { %>
-                            <button type="submit" class="btn btn-primary btn-lg" form="w_article">작성완료</button>
+                            <button type="button" class="btn btn-primary btn-lg" form="w_article"
+                            onclick = "writeArticle()">작성완료</button>
                         <% } %>
                     </span></h1>
                 </div>
                 <% if(locals.article){ %>
-                    <form id="w_article" method="post" action="javascript:updateArticle(<%=article.article_id%>)">
+                    <form id="w_article" method="post">
                         <div class="form-group">
                             <label for="title">제목</label>
                             <input type="text" class="form-control" id="title" 
@@ -46,7 +48,7 @@
                         </div>
                     </form>
                 <% }else { %>
-                    <form id="w_article" method="post" action="javascript:writeArticle()">
+                    <form id="w_article" method="post">
                         <div class="form-group">
                             <label for="title">제목</label>
                             <input type="text" class="form-control" id="title" 
