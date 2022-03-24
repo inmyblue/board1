@@ -16,6 +16,7 @@
     "dotenv": "^16.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
+    "joi": "^17.6.0",
     "moment": "^2.29.1",
     "mongoose": "^6.2.7",
     "mongoose-sequence": "^5.3.1",

@@ -16,6 +16,9 @@ function writeArticle(){
         success : function(response){
             alert(response['msg'])
             window.location.href='/board'
+        },
+        error : function(error){
+            alert(error.responseJSON.msg)
         }
     })
 
