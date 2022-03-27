@@ -158,20 +158,21 @@ function commentUpdate(commentId){
 }
 
 function commentDelete(commentId){
-    if(confirm('댓글을 삭제하시겠습니까?') != true) window.location.reload()
-    $.ajax({
-        type : "DELETE",
-        url : "/board/comment",
-        headers : {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        data : {commentId},
-        success : function(response){
-            alert(response["msg"])
-            window.location.reload()
-        }, 
-        error : function(response){
-            alert(response["msg"])
-        }
-    })
+    if(confirm('댓글을 삭제하시겠습니까?') == true){
+        $.ajax({
+            type : "DELETE",
+            url : "/board/comment",
+            headers : {
+                authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            data : {commentId},
+            success : function(response){
+                alert(response["msg"])
+                window.location.reload()
+            }, 
+            error : function(response){
+                alert(response["msg"])
+            }
+        })
+    }
 }
