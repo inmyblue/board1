@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <%- include('head.ejs') %>
+        <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
+        <style>
+            .bd-placeholder-img {
+              font-size: 1.125rem;
+              text-anchor: middle;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              user-select: none;
+            }
+      
+            @media (min-width: 768px) {
+              .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+              }
+            }
+            .form-control{
+                width : 100%;
+                height : 5vh;
+            }
+        </style>
+        <link href="/css/signin.css" rel="stylesheet"> 
+    </head>
+    <body>
+        <%- include('header.ejs') %>
+        <div class="wrap">
+            <div class="container">
+                <main class="form-signin">
+                    <img class="mb-4" src="/img/logo.png" alt="" width="300" height="300">
+                    <form>
+                      <h1 class="h3 mb-3 fw-normal text-center">회원가입</h1>
+                      <div class="form-floating">
+                        <input type="text" class="form-control" id="userId" placeholder="ID를 입력해주세요">
+                        <label for="userId" autocomplete="off" style="margin-top:10px; color:#012506;">이메일 형식으로 입력해주세요</label>
+                      </div>
+                      <div class="form-floating">
+                        <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력해주세요">
+                        <label for="password" style="color:#012506">최소 4자리이상 필요합니다</label>
+                      </div>
+                      <div class="form-floating">
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="비밀번호를 한번 더 입력해주세요">
+                        <label for="confirmPassword"></label>
+                      </div>
+                      <div class="form-floating">
+                        <input type="text" class="form-control" id="nickName" placeholder="닉네임을 입력해주세요">
+                        <label for="nickName" style="margin-top:10px; color:#012506;">영어와 숫자만 가능합니다</label>
+                      </div>
+
+                      <button class="w-100 btn btn-lg btn-primary" type="button"
+                      style="width : 100%;" onclick="register()">가입하기</button>
+                    </form>
+                  </main>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,23 +1,15 @@
 <html>
     <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-        <meta http-equiv="Content-Security-Policy" content="form-action 'none'"> 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+        <%- include('head.ejs') %>
     </head>
     <body>
+        <%- include('header.ejs') %>
         <div class="wrap">
             <div class="container">
                 <div class="page-header">
                     <h1>Board<small></small><span style="float : right;">
                         <button type="button" class="btn btn-primary btn-lg"
-                        onclick="location.href='/board/write'">글 작성하기</button>
+                        onclick="writeAuth()">글 작성하기</button>
                     </span></h1>
                 </div>
                 <table class="table table-hover">
@@ -28,9 +20,9 @@
                     </thead>
                     <tbody>
                         <% articles.forEach(article => { %>
-                            <tr onclick="location.href='/board/<%=article.article_id%>'">
+                            <tr onclick="location.href='/board/<%=article.articleId%>'">
                                 <td><%=article.title %></td>
-                                <td><%=article.userName %></td>
+                                <td><%=article.nickName %></td>
                                 <td><%=article.datetime %></td>
                             </tr>
                         <% }) %>

@@ -6,8 +6,8 @@ const articleValidation = {
         const schema = Joi.object().keys({
             title : Joi.string().min(5).max(30).required(),
             content : Joi.string().min(5).required(),
-            userName : Joi.string().min(1).max(15).required(),
-            password : Joi.string().min(4).max(15).required(),
+            nickName : Joi.string().min(4).max(30).required(),
+            userNo : Joi.number().min(1).max(10).required(),
         })
         try{
             await schema.validateAsync(body)

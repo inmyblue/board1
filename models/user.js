@@ -1,20 +1,17 @@
 const mongoose = require("mongoose")
 const autoIdSetter = require("./auto-id")
 
-const article = new mongoose.Schema({
+const user = new mongoose.Schema({
+    userId :{
+        type : String,
+        required : true,
+        unique : true
+    },
     nickName :{
         type : String,
         required : true,
     },
-    userNo : {
-        type : Number,
-        required : true,
-    },
-    title : {
-        type : String,
-        required : true,
-    },
-    content : {
+    password : {
         type : String,
         required : true,
     },
@@ -24,5 +21,5 @@ const article = new mongoose.Schema({
     }
 })
 
-autoIdSetter(article, mongoose, 'aricle', 'articleId')
-module.exports = mongoose.model("Article", article)
+autoIdSetter(user, mongoose, 'userNo', 'userNo')
+module.exports = mongoose.model("User", user)

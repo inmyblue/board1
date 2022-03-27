@@ -1,28 +1,68 @@
 <html>
     <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-        <script src="/js/frontBoard.js"></script>
+        <%- include('head.ejs') %>
+        <style>
+            .comment_view{
+                border-top : 2px solid #eee;
+                border-bottom : 2px solid #eee;
+            }
+            .comment_out{
+                border-bottom : 1px solid #eee;
+                margin : 10px 0px 10px 0px;
+            }
+            .com_contents{
+                padding : 20px 0px 20px 0px;
+                display : flex;
+            }
+            .update_post{
+                cursor : pointer;
+                margin-left : 10px;
+                color : #7e1526;
+            }
+            .delete_post{
+                cursor : pointer;
+                margin-left : 10px;
+                color : #7e1526;
+            }
+        </style>
     </head>
     <body>
+        <%- include('header.ejs') %>
         <div class="wrap">
             <div class="container">
                 <div class="page-header">
                     <h1><%=article.title%><span style="float : right;">
                         <button type="button" class="btn btn-primary btn-lg"
-                        onclick = "location.href='/board/write/<%=article.article_id%>'">수정하기</button>
+                        onclick = "writeAuth('<%=article.articleId%>')">수정하기</button>
                     </span></h1>
                     <small><%=article.userName%></small>
                     <small style="margin-left:30px;"><%=article.datetime%></small>
                 </div>
-                <div class="content">
+                <div class="content" style="min-height : 40vh; border-bottom:1px solid #eee;">
                     <%=article.content%>
+                </div>
+                <div class="comment_wrap">
+                    <div class="comment_write">
+                        <h5>댓글 입력하기</h5>
+                        <form name="comment_write" method="POST" action="">
+                            <div class="comment_input" style="display:flex;">
+                                <textarea class=" comment_text" rows="3" id="comment" style="width:90%;"></textarea>
+                                <input type="button" class="btn btn-default" value="등록하기"
+                                style="width:8%;min-height:5vh;margin-left:2px;" onclick="commentWrite(<%=article.articleId%>)">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="comment_view" id="comment_view">
+                        
+                    </div>
                 </div>
             </div>
         </div>
     </body>
 </html>
+<script>
+    $(document).ready(function(){
+        commentRead(<%=article.articleId%>)
+        $(".hide").hide()
+    })
+</script>

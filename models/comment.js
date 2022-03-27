@@ -1,17 +1,17 @@
 const mongoose = require("mongoose")
 const autoIdSetter = require("./auto-id")
 
-const article = new mongoose.Schema({
+const comment = new mongoose.Schema({
+    articleId : {
+        type : Number,
+        required : true,
+    },
     nickName :{
         type : String,
         required : true,
     },
     userNo : {
         type : Number,
-        required : true,
-    },
-    title : {
-        type : String,
         required : true,
     },
     content : {
@@ -24,5 +24,5 @@ const article = new mongoose.Schema({
     }
 })
 
-autoIdSetter(article, mongoose, 'aricle', 'articleId')
-module.exports = mongoose.model("Article", article)
+autoIdSetter(comment, mongoose, 'comment', 'commentId')
+module.exports = mongoose.model("Comment", comment)

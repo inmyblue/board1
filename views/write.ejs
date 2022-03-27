@@ -1,75 +1,58 @@
 <html>
     <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-        <script src="/js/frontBoard.js"></script>
-    </head>
+        <%- include('head.ejs') %>
+     </head>
     <body>
+        <%- include('header.ejs') %>
         <div class="wrap">
             <div class="container">
                 <div class="page-header">
-                    <h1>글 작성하기<span style="float : right;">
-                        <% if(locals.article) {%>
+                    <h1>글 작성하기<span style="float : right;">  
+                        <% if(locals.article){ %>
                             <button type="button" class="btn btn-primary btn-lg" form="w_article"
-                            onclick="updateArticle(<%=article.article_id%>)">수정완료</button>
+                            onclick="updateArticle(<%=article.articleId%>)">수정완료</button>
                             <button type="button" class="btn btn-primary btn-lg" 
-                            onclick="deleteArticle(<%=article.article_id%>)">삭제하기</button>
+                            onclick="deleteArticle(<%=article.articleId%>)">삭제하기</button>
                         <% } else { %>
                             <button type="button" class="btn btn-primary btn-lg" form="w_article"
                             onclick = "writeArticle()">작성완료</button>
                         <% } %>
+                        
                     </span></h1>
                 </div>
-                <% if(locals.article){ %>
                     <form id="w_article" method="post">
                         <div class="form-group">
-                            <label for="title">제목</label>
-                            <input type="text" class="form-control" id="title" 
-                            placeholder="제목을 입력하세요" value="<%=article.title%>">
-                        </div>
-                        <div class="form-group">
                             <label for="userName">이름</label>
-                            <input type="text" class="form-control" id="userName" 
-                            placeholder="이름을 입력하세요" value="<%=article.userName%>">
+                            <p><%=nickName%>    </p>
+                            <input type="hidden" id="nickName" value="<%=nickName%>">
+                            <input type="hidden" id="userNo" value="<%=userNo%>">
                         </div>
-                        <div class="form-group">
-                            <label for="password">비밀번호</label>
-                            <input type="password" class="form-control" id="password" 
-                            placeholder="비밀번호를 입력하세요">
-                        </div>
-                        <div class="form-group">
-                            <label for="content">내용</label>
-                            <textarea class="form-control" id="content" rows="10"
-                            ><%= article.content%></textarea>
-                        </div>
+                        <%if(locals.article){ %>
+                            <div class="form-group">
+                                <label for="title">제목</label>
+                                <input type="text" class="form-control" id="title" 
+                                placeholder="제목을 입력하세요" value="<%=article.title%>">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="content">내용</label>
+                                <textarea class="form-control" id="content" rows="10"
+                                ><%=article.content%></textarea>
+                            </div>
+                        <% } else { %>
+                            <div class="form-group">
+                                <label for="title">제목</label>
+                                <input type="text" class="form-control" id="title" 
+                                placeholder="제목을 입력하세요" value="">
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="content">내용</label>
+                                <textarea class="form-control" id="content" rows="10"
+                                ></textarea>
+                            </div>
+                        <% } %>
                     </form>
-                <% }else { %>
-                    <form id="w_article" method="post">
-                        <div class="form-group">
-                            <label for="title">제목</label>
-                            <input type="text" class="form-control" id="title" 
-                            placeholder="제목을 입력하세요">
-                        </div>
-                        <div class="form-group">
-                            <label for="userName">이름</label>
-                            <input type="text" class="form-control" id="userName" 
-                            placeholder="이름을 입력하세요">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">비밀번호</label>
-                            <input type="password" class="form-control" id="password" 
-                            placeholder="비밀번호를 입력하세요">
-                        </div>
-                        <div class="form-group">
-                            <label for="content">내용</label>
-                            <textarea class="form-control" id="content" rows="10"></textarea>
-                        </div>
-                    </form>
-                <% } %>
             </div>
         </div>
     </body>
