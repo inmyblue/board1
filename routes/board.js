@@ -22,7 +22,7 @@ router.get("/write", authMiddleware, async (req, res) => {
     const {user, authResult} = res.locals
     if(authResult !== "00") return res.send("<script>alert('로그인한 사용자만 들어올수 있어요'); location.href='/user';</script>")
     
-    res.render('write', {userNo : user.userNo})
+    res.render('write', {userNo : user.userNo, nickName : user.nickName})
 })
 
 router.get("/write/:articleId", authMiddleware, async (req, res) => {
