@@ -124,6 +124,7 @@ router.get("/:articleId", authMiddleware, async (req, res) => { // 게시글 상
 })
 
 router.delete("/:articleId", authMiddleware, async (req,res) => {
+    const {user} = res.locals
     const {articleId} = req.params
     try{
         await Article.deleteOne({articleId : Number(articleId), userNo : user.userNo}).exec()

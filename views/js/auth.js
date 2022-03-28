@@ -39,7 +39,6 @@ function login() {
             password
         },
         success : function(response){
-            localStorage.setItem("token", response.token);
             $.cookie('ggactk', response.token, {path:'/'})
             window.location.href="/board"
         },

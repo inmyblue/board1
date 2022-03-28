@@ -38,18 +38,17 @@ function updateArticle(articleId){
     })
 }
 function deleteArticle(articleId){
-    $.ajax({
-        type : "DELETE",
-        url : "/board/"+articleId,
-        headers: {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        data : {},
-        success : function(response){
-            alert(response['msg'])
-            window.location.href='/board'
-        }
-    })
+    if(confirm('게시글은 삭제하면 복구할수 없습니다 삭제하시겠습니까?') == true){
+        $.ajax({
+            type : "DELETE",
+            url : "/board/"+articleId,
+            data : {},
+            success : function(response){
+                alert(response['msg'])
+                window.location.href='/board'
+            }
+        })
+    }
 }
 function commentWrite(articleId){
     let content = $('#comment').val()
