@@ -77,8 +77,6 @@ function writeAuth(articleId){
 }
 function commentWrite(articleId){
     let content = $('#comment').val()
-    // let userNo = authUserNo
-    // let nickName = authNickName
     $.ajax({
         type : "POST",
         url : "/board/comment",
@@ -92,6 +90,15 @@ function commentWrite(articleId){
         success : function(response){
             alert(response['msg'])
             window.location.reload()
+        },
+        error : function(status, error){
+            if(status.status == '401'){
+                alert("로그인 하신 후 사용할 수 있습니다.")
+                window.location.href='/user'
+            }
+            if(status.status = '400'){
+                alert(status.responseJSON.msg)
+            }
         }        
     })
 }
@@ -153,6 +160,10 @@ function commentUpdate(commentId){
         success : function(response){
             alert(response['msg'])
             window.location.reload()
+        },
+        error : function(status){
+            if(status.status == '400') alert(status.responseJSON.msg)
+            if(status.status == '401') console.log(status)
         }
     })
 }

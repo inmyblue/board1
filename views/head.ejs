@@ -23,7 +23,17 @@
     </style>
     <script>
         let authUserNo, authNickName
-        getSelf(function (u) {
-            user = u;
-        });
+        $(document).ready(function(){
+            if(localStorage.getItem('token')){
+            getSelf(function (u) {
+                user = u;
+            });
+        } else{
+            let tmpHtml = `
+                 <li><a href="/user" style="font-size:3vh; padding-top:65%;">로그인</a></li>
+             `
+             $('#authFunc').append(tmpHtml)
+        }
+        })
+        
     </script>

@@ -23,9 +23,10 @@ router.post("/register", userValidation.userPost, async (req, res) => {
     const datetime = moment().format("YYYY-MM-DD HH:mm:ss")
     const hashedPw = bcrypt.hashSync(password, 10)
 
-    const existUser = await userModel.find({nickName}).exec()
+    const existUser = await userModel.find({userId}).exec()
+    console.log(existUser)
     if(existUser.length){
-        return res.status(400).send({"msg" : "이미 등록된 닉네임이 있습니다"})
+        return res.status(400).send({"msg" : "이미 등록된 ID가 있습니다"})
     }
 
     const insertUser = new userModel({userId,nickName, password : hashedPw, datetime})
@@ -47,7 +48,7 @@ router.post("/", userValidation.userLogin,
 
 router.get("/me", passport.authenticate('jwt',{session:false}), async (req, res) => {
     const {user} = req
-    res.send({userNo : user.userNo, nickName : user.nickName})
+    res.status(200).send({userNo : user.userNo, nickName : user.nickName})
  })
 
 module.exports = router

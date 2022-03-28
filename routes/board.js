@@ -65,7 +65,7 @@ router.put("/:articleId", passport.authenticate('jwt',{session:false}),
     return res.status(201).json({"msg" : "수정이 완료되었습니다"})
 })
 
-router.post("/comment", passport.authenticate('jwt',{session:false}), async (req, res) => {
+router.post("/comment", articleValidation.commentPost, passport.authenticate('jwt',{session:false}), async (req, res) => {
     const {user} = req
     const {articleId, content} = req.body
     const datetime = moment().format("YYYY-MM-DD HH:mm:ss")
@@ -83,11 +83,11 @@ router.get("/comment", async(req, res) => {
     res.json({comment})
 })
 
-router.patch("/comment", passport.authenticate('jwt', {session:false}), async(req, res) =>{
+router.patch("/comment", articleValidation.commentUpdate, passport.authenticate('jwt', {session:false}), async(req, res) =>{
     const {commentId, content} = req.body
     const {user} = req
     const datetime = moment().format("YYYY-MM-DD HH:mm:ss")
-
+    
     const comment = await Comment.findOne({commentId : Number(commentId), userNo:Number(user.userNo), nickName : user.nickName})
     if(!comment) return res.status(400).json({"msg" : "댓글 작성자가 본인인지 확인해주세요"})
 
