@@ -2,6 +2,7 @@ const express = require("express")
 const connect = require("./models")
 const cors = require("cors")
 const passport = require("passport")
+const cookieParser = require("cookie-parser")
 
 require('dotenv').config();
 const app = express()
@@ -22,6 +23,7 @@ connect()
 //MiddleWare
 app.use(express.static('views'))
 app.use(express.json())
+app.use(cookieParser())
 app.use(express.urlencoded())
 app.use(function (req, res, next) { //x-Powerd-By 제거
     res.removeHeader("X-Powered-By");

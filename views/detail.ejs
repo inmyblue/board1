@@ -32,10 +32,12 @@
             <div class="container">
                 <div class="page-header">
                     <h1><%=article.title%><span style="float : right;">
+                    <% if(locals.userNo === article.userNo) {%>
                         <button type="button" class="btn btn-primary btn-lg"
-                        onclick = "writeAuth('<%=article.articleId%>')">수정하기</button>
+                        onclick = "location.href='/board/write/<%=article.articleId%>'">수정하기</button>
+                    <% } %>
                     </span></h1>
-                    <small><%=article.userName%></small>
+                    <small><%=article.nickName%></small>
                     <small style="margin-left:30px;"><%=article.datetime%></small>
                 </div>
                 <div class="content" style="min-height : 40vh; border-bottom:1px solid #eee;">
@@ -43,7 +45,6 @@
                 </div>
                 <div class="comment_wrap">
                     <div class="comment_write">
-                        
                         <h5>댓글 입력하기</h5>
                         <form name="comment_write" method="POST" action="">
                             <div class="comment_input" style="display:flex;">
@@ -57,13 +58,13 @@
                         
                     </div>
                 </div>
-            </div>
+            </div>  
         </div>
     </body>
 </html>
 <script>
     $(document).ready(function(){
-        commentRead(<%=article.articleId%>)
-        $(".hide").hide()
+        commentRead(<%=article.articleId%>) // 댓글리스트 가져오기
+        $(".hide").hide() // 댓글 수정 textarea 숨기기
     })
 </script>

@@ -40,6 +40,7 @@ function login() {
         },
         success : function(response){
             localStorage.setItem("token", response.token);
+            $.cookie('ggactk', response.token, {path:'/'})
             window.location.href="/board"
         },
         error : function(error){
@@ -49,28 +50,28 @@ function login() {
     })
 }
 
-function getSelf(callback) {
+function getSelf() {
     $.ajax({
         type: "GET",
         url: "/user/me",
-        headers: {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
         success: function (response) {
-            let tmpHtml = `
-                <li><a href="" onclick="logout()" style="font-size:3vh; padding-top:55%;">로그아웃</a></li>
-            `
+            let tmpHtml
+            if(response['authResult'] === "00"){
+                tmpHtml = `
+                    <li><a href="" onclick="logout()" style="font-size:3vh; padding-top:55%;">로그아웃</a></li>
+                `
+            } else{
+                tmpHtml = `
+                    <li><a href="/user" style="font-size:3vh; padding-top:65%;">로그인</a></li>
+                `
+            }
+            
             $('#authFunc').append(tmpHtml)
-            authUserNo = response.userNo
-            authNickName = response.nickName
-            callback(response.user);
-        },
-        error: function (xhr, status, error) {
-        },
+        }
     }); 
   }
 
 function logout() {
-    localStorage.clear();
-    window.location.href = "/";
+    $.removeCookie('ggactk', {path:'/'})
+    window.location.replace('/')
 }

@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="/js/frontBoard.js"></script>
     <script src="/js/auth.js"></script>
     <style>
@@ -22,18 +23,7 @@
         }
     </style>
     <script>
-        let authUserNo, authNickName
         $(document).ready(function(){
-            if(localStorage.getItem('token')){
-            getSelf(function (u) {
-                user = u;
-            });
-        } else{
-            let tmpHtml = `
-                 <li><a href="/user" style="font-size:3vh; padding-top:65%;">로그인</a></li>
-             `
-             $('#authFunc').append(tmpHtml)
-        }
+            getSelf();
         })
-        
     </script>

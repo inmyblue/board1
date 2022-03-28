@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken")
 const userModel = require("../models/user")
 const userValidation = require("../models/validations/userValidation")
 const passport = require("../passport/index")
+const authmiddleware = require("../middlewares/authmiddleware")
 
 const secretKey = process.env.SECRETKEY
 
@@ -24,7 +25,6 @@ router.post("/register", userValidation.userPost, async (req, res) => {
     const hashedPw = bcrypt.hashSync(password, 10)
 
     const existUser = await userModel.find({userId}).exec()
-    console.log(existUser)
     if(existUser.length){
         return res.status(400).send({"msg" : "이미 등록된 ID가 있습니다"})
     }
@@ -41,14 +41,15 @@ router.post("/", userValidation.userLogin,
     const {user} = req
     const token = jwt.sign({
         userNo : user.userNo,
-        nickName : user.nickName
+        nickName : user.nickName,
+        expireIn : "2h"
     }, secretKey )
     res.send({token})
 })
 
-router.get("/me", passport.authenticate('jwt',{session:false}), async (req, res) => {
-    const {user} = req
-    res.status(200).send({userNo : user.userNo, nickName : user.nickName})
+router.get("/me", authmiddleware, async (req, res) => {
+    const {authResult} = res.locals
+    res.status(200).json({authResult}) 
  })
 
 module.exports = router

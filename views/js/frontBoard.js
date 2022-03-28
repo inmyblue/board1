@@ -6,7 +6,7 @@ function writeArticle(){
 
     $.ajax({
         type : "POST",
-        url : "/board",
+        url : "/board/write",
         data : {
             title, content, nickName, userNo
         },
@@ -24,14 +24,10 @@ function updateArticle(articleId){
     let content = $('#content').val()
     let nickName = $('#nickName').val()
     let userNo = $('#userNo').val()
-    console.log(articleId)
 
     $.ajax({
         type : "PUT",
-        url : "/board/"+articleId,
-        headers: {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
+        url : "/board/write/"+articleId,
         data : {title, content, nickName, userNo},
         success : function(response){
             alert(response['msg'])
@@ -55,34 +51,11 @@ function deleteArticle(articleId){
         }
     })
 }
-function writeAuth(articleId){
-    $.ajax({
-        type : "GET",
-        url : "/board/auth",
-        headers: {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        success : function(response){
-            let nickName = response['nickName']
-            let userNo = response['userNo']
-            if(articleId == undefined) articleId = ''
-            let txt = nickName+"&"+userNo+"&"+articleId
-            window.location.href=`/board/write/${txt}`
-        },
-        error : function(xhr, status, error){
-            alert("로그인 후 사용하실 수 있습니다")
-            window.location.href="/user"
-        }
-    })
-}
 function commentWrite(articleId){
     let content = $('#comment').val()
     $.ajax({
         type : "POST",
         url : "/board/comment",
-        headers : {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
         data : {
             articleId,
             content,
@@ -103,16 +76,14 @@ function commentWrite(articleId){
     })
 }
 function commentRead(articleId){
-    $.ajax({
+    $.ajax({ 
         type : "GET",
         url : "/board/comment",
-        headers : {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
         data :{articleId},
         success : function(response){
             let tmpHtml
             let rows = response['comment']
+            let authUserNo = response['userNo']
 
             for(let i=0; i < rows.length; i++){
                 let {commentId, nickName, datetime, content, userNo} = rows[i]
@@ -153,17 +124,13 @@ function commentUpdate(commentId){
     $.ajax({
         type : "PATCH",
         url : "/board/comment",
-        headers : {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
         data : {commentId, content},
         success : function(response){
             alert(response['msg'])
             window.location.reload()
         },
         error : function(status){
-            if(status.status == '400') alert(status.responseJSON.msg)
-            if(status.status == '401') console.log(status)
+            alert(status.responseJSON.msg)
         }
     })
 }
@@ -173,9 +140,6 @@ function commentDelete(commentId){
         $.ajax({
             type : "DELETE",
             url : "/board/comment",
-            headers : {
-                authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
             data : {commentId},
             success : function(response){
                 alert(response["msg"])
