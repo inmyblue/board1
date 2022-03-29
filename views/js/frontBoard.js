@@ -74,56 +74,13 @@ function commentWrite(articleId){
         }        
     })
 }
-function commentRead(articleId){
-    $.ajax({ 
-        type : "GET",
-        url : "/board/comment",
-        data :{articleId},
-        success : function(response){
-            let tmpHtml
-            let rows = response['comment']
-            let authUserNo = response['userNo']
 
-            for(let i=0; i < rows.length; i++){
-                let {commentId, nickName, datetime, content, userNo} = rows[i]
-                if(userNo == authUserNo){
-                    tmpHtml = `
-                        <div class = "comment_out">
-                        <div class = "com_username">${nickName}<span style="margin-left : 50px; font-size : 10px;">${datetime}</span>
-                        <span id="comment_auth">
-                            <span class="update_post" 
-                            onclick="$('#comment_${commentId}').removeClass('hide'); $('#txtComment_${commentId}').addClass('hide');">수정하기</span>
-                            <span class="delete_post" onclick="commentDelete(${commentId})">삭제하기</span>
-                        </span></div>
-                        <div class="com_contents" id="txtComment_${commentId}">${content}</div>
-                        <div class="com_contents update hide" id="comment_${commentId}"><textarea id="upComment_${commentId}"rows="3" style="width:90%;">${content}</textarea>
-                        <input type="button" class="btn btn-default" value="등록하기"
-                            style="width:8%;min-height:5vh;margin-left:2px;" onclick="commentUpdate(${commentId})">
-                        </div>
-                        </div>
-                    `
-                    $('#comment_view').append(tmpHtml)
-                } else {
-                    tmpHtml = `
-                        <div class = "comment_out">
-                        <div class = "com_username">${nickName}<span style="margin-left : 50px; font-size : 10px;">${datetime}</span>
-                        <span id="comment_auth"></span></div>
-                        <div class = "com_contents">${content}</div>
-                        </div>
-                    `
-                    $('#comment_view').append(tmpHtml)
-                }
-                
-            }
-        }
-    })
-}
-function commentUpdate(commentId){
+function commentUpdate(articleId, commentId){
     let content = $('#upComment_'+commentId).val()
     $.ajax({
         type : "PATCH",
         url : "/board/comment",
-        data : {commentId, content},
+        data : {articleId, commentId, content},
         success : function(response){
             alert(response['msg'])
             window.location.reload()
@@ -134,12 +91,12 @@ function commentUpdate(commentId){
     })
 }
 
-function commentDelete(commentId){
+function commentDelete(articleId, commentId){
     if(confirm('댓글을 삭제하시겠습니까?') == true){
         $.ajax({
             type : "DELETE",
             url : "/board/comment",
-            data : {commentId},
+            data : {articleId,commentId},
             success : function(response){
                 alert(response["msg"])
                 window.location.reload()

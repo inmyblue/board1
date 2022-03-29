@@ -28,7 +28,25 @@ const article = new mongoose.Schema({
     },
     liked : {
         type : [Number]
-    }
+    },
+    comments : [{
+        nickName :{
+            type : String,
+            required : true,
+        },
+        userNo : {
+            type : Number,
+            required : true,
+        },
+        content : {
+            type : String,
+            required : true,
+        },
+        datetime : {
+            type : String,
+            required : true,
+        }
+    }]
 })
 
 autoIdSetter(article, mongoose, 'aricle', 'articleId')

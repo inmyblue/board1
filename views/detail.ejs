@@ -64,7 +64,29 @@
                         </form>
                     </div>
                     <div class="comment_view" id="comment_view">
-                        
+                        <% article.comments.forEach((comment, i) => { %>
+                            <% if(comment.userNo == locals.userNo) { %>
+                                <div class = "comment_out">
+                                    <div class = "com_username"><%=comment.nickName%><span style="margin-left : 50px; font-size : 10px;"><%=comment.datetime%></span>
+                                    <span id="comment_auth">
+                                        <span class="update_post" 
+                                        onclick="$('#comment_<%=i%>').show(); $('#txtComment_<%=i%>').hide();">수정하기</span>
+                                        <span class="delete_post" onclick="commentDelete(<%=article.articleId%>, '<%=comment._id%>')">삭제하기</span>
+                                    </span></div>
+                                    <div class="com_contents" id="txtComment_<%=i%>"><%=comment.content%></div>
+                                    <div class="com_contents update hidetab" id="comment_<%=i%>"><textarea id="upComment_<%=comment._id%>"rows="3" style="width:90%;"><%=comment.content%></textarea>
+                                    <input type="button" class="btn btn-default" value="등록하기"
+                                        style="width:8%;min-height:5vh;margin-left:2px;" onclick="commentUpdate(<%=article.articleId%>,'<%=comment._id%>')">
+                                    </div>
+                                    </div>
+                            <% } else {%>
+                                <div class = "comment_out">
+                                    <div class = "com_username"><%=comment.nickName%><span style="margin-left : 50px; font-size : 10px;"><%=comment.datetime%></span>
+                                    <span id="comment_auth"></span></div>
+                                    <div class = "com_contents"><%=comment.content%></div>
+                                </div>
+                            <% } %>
+                        <% }) %>
                     </div>
                 </div>
             </div>  
@@ -73,7 +95,7 @@
 </html>
 <script>
     $(document).ready(function(){
-        commentRead(<%=article.articleId%>) // 댓글리스트 가져오기
-        $(".hide").hide() // 댓글 수정 textarea 숨기기
+        // commentRead(<%=article.articleId%>) // 댓글리스트 가져오기
+        $(".hidetab").hide() // 댓글 수정 textarea 숨기기
     })
 </script>

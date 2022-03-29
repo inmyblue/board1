@@ -68,41 +68,40 @@ router.post("/comment", sanitizer.sanitizerComment, articleValidation.commentPos
 
     if(authResult !== "00") return res.status(401).send()
 
-    const comment = new Comment({articleId:Number(articleId), content, userNo : Number(user.userNo), nickName : user.nickName, datetime})
-    await comment.save()
+    const commentWrite = await Article.updateOne(
+        {articleId : Number(articleId)},
+        {$push : {comments : {
+            nickName : user.nickName,
+            userNo : Number(user.userNo),
+            content,
+            datetime
+        }}}
+    ).exec()
 
     res.status(201).json({"msg" : "댓글등록이 완료되었습니다"})
 })
 
-router.get("/comment", authMiddleware, async(req, res) => {
-    const {articleId} = req.query
-    const {authResult} = res.locals
-    let user = {userNo:"", nickName:""}
-    if(authResult === "00") user = res.locals.user
-
-    const comment = await Comment.find({articleId : Number(articleId)}).sort({commentId:+1})
-    res.json({comment, userNo : user.userNo, nickName : user.nickName})
-})
-
 router.patch("/comment", articleValidation.commentUpdate, authMiddleware, async(req, res) =>{
-    const {commentId, content} = req.body
+    const {articleId, commentId, content} = req.body
     const {user, authResult} = res.locals
     const datetime = moment().format("YYYY-MM-DD HH:mm:ss")
 
     if(authResult !== "00") return res.status(401).json({"msg" : "로그인정보가 올바르지 않습니다"})
-    
-    const comment = await Comment.findOne({commentId : Number(commentId), userNo:Number(user.userNo)})
-    if(!comment) return res.status(401).json({"msg" : "댓글 작성자가 본인인지 확인해주세요"})
+    Article.findOne({articleId : Number(articleId)}, function(err, result){
+        result.comments.id(commentId).content = content
+        result.save()
+    })
 
-    await Comment.updateOne({commentId : Number(commentId)}, {$set:{content, datetime}})
     res.json({"msg" : "댓글수정이 완료되었습니다"})
 })
 
 router.delete("/comment", authMiddleware, async(req, res) => {
-    const {user} = res.locals
-    const {commentId} = req.body
+    const {articleId, commentId} = req.body
     try{
-        await Comment.deleteOne({commentId : Number(commentId), userNo : Number(user.userNo)})
+        Article.findOne({articleId : Number(articleId), 'comments._id' : commentId}, function(err, result){
+            result.comments.id(commentId).remove()
+            result.save()
+        })
         return res.json({"msg" : "삭제가 완료되었습니다"})
     }catch(e){
         console.log(e)
@@ -113,13 +112,12 @@ router.delete("/comment", authMiddleware, async(req, res) => {
 router.get("/:articleId", authMiddleware, async (req, res) => { // 게시글 상세페이지
     const authResult = res.locals.authResult
     const { articleId } = req.params
-    const [ article ] = await Article.find({ articleId : Number(articleId) }).exec()
+    const article  = await Article.findOne({ articleId : Number(articleId) }).exec()
     let user = {userNo:"", nickName:"", liked:""}
 
     if(authResult === "11") res.send("<script>alert('로그인 정보가 잘못되었어요'); location.href='/board';</script>")
     if(authResult === "00") user = res.locals.user
     
-    const likechk = await userModel.findOne({})
     res.render('detail',{
         article, userNo : user.userNo, nickName : user.nickName
     })
@@ -140,10 +138,8 @@ router.delete("/:articleId", authMiddleware, async (req,res) => {
 
 router.patch("/like", async (req, res) => {
     const {articleId, userNo} = req.body
-    console.log(articleId, userNo)
     try{
         const chk = await Article.findOne({articleId:Number(articleId), userNo:Number(userNo)}).exec()
-        console.log(chk)
         if(chk) return res.json({"msg" : "본인 글은 추천할 수 없습니다"})
         await userModel.updateOne({userNo:Number(userNo)}, {$push:{liked : Number(articleId)}}).exec()
         await Article.updateOne({articleId : Number(articleId)}, {$inc : {likes : 1}, $push:{liked:Number(userNo)}}).exec()

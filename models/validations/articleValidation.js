@@ -32,8 +32,9 @@ const articleValidation = {
     commentUpdate : async (req, res, next) => {
         const body = req.body
         const schema = Joi.object().keys({
+            articleId : Joi.number().required().error(new Error("글의 ID가 없어요 돌아가세요")),
             content : Joi.string().min(1).required().error(new Error("댓글의 내용이 입력되지 않았습니다")),
-            commentId : Joi.number().required().error(new Error("댓글 ID가 없어요 돌아가세요"))
+            commentId : Joi.string().required().error(new Error("댓글 ID가 없어요 돌아가세요"))
         })
         try{
             await schema.validateAsync(body)

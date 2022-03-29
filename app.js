@@ -3,10 +3,10 @@ const connect = require("./models")
 const cors = require("cors")
 const passport = require("passport")
 const cookieParser = require("cookie-parser")
-
-require('dotenv').config();
 const app = express()
-const port = 3000
+
+// env 불러오기
+require('dotenv').config();
 
 // ejs setting
 app.set('views',__dirname+'/views')
@@ -17,6 +17,8 @@ app.engine('html', require('ejs').renderFile)
 const boardRouter = require("./routes/board")
 const userRouter = require("./routes/user")
 
+
+//MongoDB Connection
 connect()
 
 //MiddleWare
@@ -33,9 +35,8 @@ app.use(passport.initialize())
 
 app.use("/board", [boardRouter])
 app.use("/user", [userRouter])
-
 app.get('/', (req, res) => {
     res.redirect('/board')
 })
 
-app.listen(port, () => {console.log("Node On")})
+module.exports = app
