@@ -13,13 +13,13 @@ module.exports = async (req, res, next) => {
         if(!req.cookies.ggactk){
             res.locals.authResult = "10"
         } else{
-            const {userNo, nickName} = jwt.verify(req.cookies.ggactk, process.env.SECRETKEY)
             try{
+                const {userNo, nickName} = jwt.verify(req.cookies.ggactk, process.env.SECRETKEY)
                 const existUser = await userModel.findOne({userNo : Number(userNo), nickName})
                 if(!existUser) res.locals.authResult = "11"
                 else{
                     res.locals.user = existUser
-                    res.locals.authResult = "00"   
+                    res.locals.authResult = "00"
                 }
             }catch(e){
                 console.log(e)
