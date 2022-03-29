@@ -140,8 +140,10 @@ router.delete("/:articleId", authMiddleware, async (req,res) => {
 
 router.patch("/like", async (req, res) => {
     const {articleId, userNo} = req.body
+    console.log(articleId, userNo)
     try{
-        const chk = Article.findOne({article:Number(articleId), userNo:Number(userNo)}).exec()
+        const chk = await Article.findOne({articleId:Number(articleId), userNo:Number(userNo)}).exec()
+        console.log(chk)
         if(chk) return res.json({"msg" : "본인 글은 추천할 수 없습니다"})
         await userModel.updateOne({userNo:Number(userNo)}, {$push:{liked : Number(articleId)}}).exec()
         await Article.updateOne({articleId : Number(articleId)}, {$inc : {likes : 1}, $push:{liked:Number(userNo)}}).exec()

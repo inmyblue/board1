@@ -153,8 +153,8 @@ function commentDelete(commentId){
 
 function likeDo(articleId, userNo){
     if(!userNo){
-        alert("로그인한 사용자만 이용하실수 있습니다.")
-        window.location.replace("/user")
+        alert("로그인한 사용자만 이용하실수 있습니다.") 
+        return window.location.replace("/user")
     }
 
     $.ajax({
@@ -165,7 +165,6 @@ function likeDo(articleId, userNo){
             alert(response['msg'])
             window.location.reload()
         }
-
     })
 }
 
