@@ -4,7 +4,6 @@ const moment = require("moment")
 
 
 const Article = require("../models/article")
-const Comment = require("../models/comment")
 const userModel = require("../models/user")
 const articleValidation = require("../models/validations/articleValidation")
 const sanitizer = require("../models/validations/sanitizehtml")
@@ -51,7 +50,7 @@ router.post("/write", sanitizer.sanitizer, articleValidation.articlePost, async 
 })
 
 router.put("/write/:articleId", authMiddleware, articleValidation.articlePost, async(req, res) => {
-    const {user, authResult} = res.locals
+    const {authResult} = res.locals
     if(authResult !== "00") return res.status(401).json({'msg' : "로그인정보가 올바르지 않습니다"})
     const {articleId} = req.params
     const {title, content, userNo} = req.body
@@ -83,8 +82,7 @@ router.post("/comment", sanitizer.sanitizerComment, articleValidation.commentPos
 
 router.patch("/comment", articleValidation.commentUpdate, authMiddleware, async(req, res) =>{
     const {articleId, commentId, content} = req.body
-    const {user, authResult} = res.locals
-    const datetime = moment().format("YYYY-MM-DD HH:mm:ss")
+    const {authResult} = res.locals
 
     if(authResult !== "00") return res.status(401).json({"msg" : "로그인정보가 올바르지 않습니다"})
     Article.findOne({articleId : Number(articleId)}, function(err, result){
