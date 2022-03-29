@@ -28,7 +28,7 @@
                         <% articles.forEach(article => { %>
                             <% if(!article.likes) article.likes = 0; %>
                             <tr onclick="location.href='/board/<%=article.articleId%>'">
-                                <td style="text-align:left"><%=article.title %></td>
+                                <td style="text-align:left"><%=article.title %>  <span style="font-size:12px; color:rgb(134, 15, 25);">[<%=article.comments.length%>]</span></td>
                                 <td><%=article.nickName %></td>
                                 <td><%=article.likes %></td>    
                                 <td><%=article.datetime %></td>
