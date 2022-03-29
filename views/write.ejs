@@ -9,12 +9,10 @@
                 <div class="page-header">
                     <h1>글 작성하기<span style="float : right;">  
                         <% if(locals.article){ %>
-                            <button type="button" class="btn btn-primary btn-lg" form="w_article"
+                            <button type="button" class="ctm-btn" form="w_article"
                             onclick="updateArticle(<%=article.articleId%>)">수정완료</button>
-                            <button type="button" class="btn btn-primary btn-lg" 
-                            onclick="deleteArticle(<%=article.articleId%>)">삭제하기</button>
                         <% } else { %>
-                            <button type="button" class="btn btn-primary btn-lg" form="w_article"
+                            <button type="button" class="ctm-btn" form="w_article"
                             onclick = "writeArticle()">작성완료</button>
                         <% } %>
                         

@@ -5,9 +5,9 @@ const moment = require("moment")
 
 const Article = require("../models/article")
 const Comment = require("../models/comment")
+const userModel = require("../models/user")
 const articleValidation = require("../models/validations/articleValidation")
 const sanitizer = require("../models/validations/sanitizehtml")
-const passport = require("../passport")
 const authMiddleware = require("../middlewares/authmiddleware")
 
 /*
@@ -61,7 +61,7 @@ router.put("/write/:articleId", authMiddleware, articleValidation.articlePost, a
     return res.status(201).json({"msg" : "수정이 완료되었습니다"})
 })
 
-router.post("/comment", articleValidation.commentPost, authMiddleware, async (req, res) => {
+router.post("/comment", sanitizer.sanitizerComment, articleValidation.commentPost, authMiddleware, async (req, res) => {
     const {user, authResult} = res.locals
     const {articleId, content} = req.body
     const datetime = moment().format("YYYY-MM-DD HH:mm:ss")
@@ -113,11 +113,13 @@ router.delete("/comment", authMiddleware, async(req, res) => {
 router.get("/:articleId", authMiddleware, async (req, res) => { // 게시글 상세페이지
     const authResult = res.locals.authResult
     const { articleId } = req.params
-    const [ article ] = await Article.find({ articleId : Number(articleId) })
-    let user = {userNo:"", nickName:""}
+    const [ article ] = await Article.find({ articleId : Number(articleId) }).exec()
+    let user = {userNo:"", nickName:"", liked:""}
 
     if(authResult === "11") res.send("<script>alert('로그인 정보가 잘못되었어요'); location.href='/board';</script>")
     if(authResult === "00") user = res.locals.user
+    
+    const likechk = await userModel.findOne({})
     res.render('detail',{
         article, userNo : user.userNo, nickName : user.nickName
     })
@@ -134,6 +136,31 @@ router.delete("/:articleId", authMiddleware, async (req,res) => {
         return res.status(400).json({"msg" : "글의 작성자가 본인이 맞는지 확인해주세요"})
     }
     
+})
+
+router.patch("/like", async (req, res) => {
+    const {articleId, userNo} = req.body
+    try{
+        const chk = Article.findOne({article:Number(articleId), userNo:Number(userNo)}).exec()
+        if(chk) return res.json({"msg" : "본인 글은 추천할 수 없습니다"})
+        await userModel.updateOne({userNo:Number(userNo)}, {$push:{liked : Number(articleId)}}).exec()
+        await Article.updateOne({articleId : Number(articleId)}, {$inc : {likes : 1}, $push:{liked:Number(userNo)}}).exec()
+        return res.status(201).json({"msg" : "추천완료"})
+    } catch(e){
+        console.log(e)
+    }
+})
+
+router.patch("/unlike", async(req,res) => {
+    const {articleId, userNo} = req.body
+    try{
+        await userModel.updateOne({userNo:Number(userNo)},{$pull:{liked:Number(articleId)}}).exec()
+        await Article.updateOne({articleId:Number(articleId)}, {$inc:{likes:-1},$pull:{liked:Number(userNo)}}).exec()
+        return res.status(201).json({"msg" : "추천취소완료"})
+    }catch(e){
+        console.log(e)
+    }
+
 })
 
 module.exports = router;

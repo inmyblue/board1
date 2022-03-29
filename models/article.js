@@ -21,6 +21,13 @@ const article = new mongoose.Schema({
     datetime : {
         type : String,
         required : true,
+    },
+    likes : {
+        type : Number,
+        default : 0
+    },
+    liked : {
+        type : [Number]
     }
 })
 

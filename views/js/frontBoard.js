@@ -150,3 +150,33 @@ function commentDelete(commentId){
         })
     }
 }
+
+function likeDo(articleId, userNo){
+    if(!userNo){
+        alert("로그인한 사용자만 이용하실수 있습니다.")
+        window.location.replace("/user")
+    }
+
+    $.ajax({
+        type : "PATCH",
+        url : "/board/like",
+        data : {articleId, userNo},
+        success : function (response){
+            alert(response['msg'])
+            window.location.reload()
+        }
+
+    })
+}
+
+function unlikeDo(articleId, userNo){
+    $.ajax({
+        type : "PATCH",
+        url : "/board/unlike",
+        data : {articleId, userNo},
+        success : function(response){
+            alert(response['msg'])
+            window.location.reload()
+        }
+    })
+}

@@ -18,6 +18,9 @@ const user = new mongoose.Schema({
     datetime : {
         type : String,
         required : true,
+    },
+    liked : {
+        type : [Number]
     }
 })
 

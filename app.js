@@ -14,7 +14,6 @@ app.set('view engine','ejs')
 app.engine('html', require('ejs').renderFile)
 
 //router
-// const passportConfig = require('./auth/passport');
 const boardRouter = require("./routes/board")
 const userRouter = require("./routes/user")
 
@@ -25,10 +24,10 @@ app.use(express.static('views'))
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded())
-app.use(function (req, res, next) { //x-Powerd-By 제거
+app.use((req, res, next)=>{ //x-Powerd-By 제거
     res.removeHeader("X-Powered-By");
     next();
-    });
+});
 app.use(cors())
 app.use(passport.initialize())
 

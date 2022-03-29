@@ -31,3 +31,9 @@ exports.sanitizer = (req, res, next) => {
     req.body.content = sanitizeHtml(content,{...sanitizeOption})    
     next();
 }
+
+exports.sanitizerComment = (req, res, next) => {
+    const {content} = req.body
+    req.body.content = sanitizeHtml(content,{...sanitizeOption})
+    next();
+}

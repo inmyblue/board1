@@ -4,7 +4,7 @@ const articleValidation = {
     articlePost : async (req,res,next) => {
         const body = req.body
         const schema = Joi.object().keys({
-            title : Joi.string().trim().min(5).max(30).required().error(new Error("제목은 5자이상 입력해야 합니다.")),
+            title : Joi.string().trim().min(5).max(30).required().error(new Error("제목은 5자이상 30자 이내로 입력해야 합니다.")),
             content : Joi.string().min(5).required().error(new Error("글의 내용은 5자이상 입력해야 합니다.")),
             nickName : Joi.string().min(4).max(30).required(),
             userNo : Joi.number().required(),

@@ -32,9 +32,18 @@
             <div class="container">
                 <div class="page-header">
                     <h1><%=article.title%><span style="float : right;">
+                    <% if(locals.article.liked == locals.userNo){ %>
+                        <button type="button" class="ctm-btn"
+                        onclick = "unlikeDo(<%=article.articleId%>, <%=locals.userNo%>)">추천취소</button>
+                    <% } else {%>
+                        <button type="button" class="ctm-btn"
+                        onclick = "likeDo(<%=article.articleId%>, <%=locals.userNo%>)">추천하기</button>
+                    <% } %>
                     <% if(locals.userNo === article.userNo) {%>
-                        <button type="button" class="btn btn-primary btn-lg"
+                        <button type="button" class="ctm-btn"
                         onclick = "location.href='/board/write/<%=article.articleId%>'">수정하기</button>
+                        <button type="button" class="ctm-btn" 
+                        onclick="deleteArticle(<%=article.articleId%>)">삭제하기</button>
                     <% } %>
                     </span></h1>
                     <small><%=article.nickName%></small>
