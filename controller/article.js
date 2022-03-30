@@ -1,7 +1,5 @@
 const articleService = require('../services/articleService')
 const userService = require('../services/userService')
-const Article = require('../models/article')
-const userModel = require('../models/user')
 
 module.exports = {
 	//게시글 리스트 렌더링
@@ -9,6 +7,7 @@ module.exports = {
 		const articles = await articleService.getArticlesLists('datetime', -1)
 		res.status(200).render('board', { articles })
 	},
+	//글 작성페이지 렌더링
 	writeRender : async (req, res) => {
 		const { user, authResult } = res.locals
 		const auth = await articleService.authChkRender(authResult)
@@ -16,6 +15,7 @@ module.exports = {
 			res.send(auth)
 		res.render('write', { userNo: user.userNo, nickName: user.nickName })
 	},
+	//글 수정페이지 렌더링
 	updateRender : async (req, res) => {
 		const { user, authResult } = res.locals
 		const { articleId } = req.params
@@ -36,6 +36,7 @@ module.exports = {
 				"<script>alert('수정은 작성자만 가능합니다'); location.href='/board';</script>"
 			)
 	},
+	//글 작성 API
 	writePost : async (req, res) => {
 		const { title, content} = req.body
 		const {authResult, user} = res.locals
@@ -53,6 +54,7 @@ module.exports = {
 
 		res.status(201).json({ msg: '작성이 완료되었습니다' })
 	},
+	//글 수정 API
 	writeUpdate : async (req, res) => {
 		const { authResult, user } = res.locals
 		if (authResult !== '00')
@@ -64,6 +66,7 @@ module.exports = {
 		await articleService.updateArticle(articleId, title, content, userNo)
 		return res.status(201).json({ msg: '수정이 완료되었습니다' })
 	},
+	//글 삭제 API
 	boardDelete : async (req, res) => {
 		const { user, authResult } = res.locals
 		if (authResult !== '00')
@@ -77,6 +80,7 @@ module.exports = {
 		await articleService.deleteArticle(articleId)
 		return res.status(201).json({ msg: '삭제가 완료되었습니다' })
 	},
+	//글 상세보기 API
 	boardList : async (req, res) => {
 		const {authResult, user} = res.locals
 		const { articleId } = req.params
@@ -94,6 +98,7 @@ module.exports = {
 			nickName,
 		})
 	},
+	// 추천하기 API
 	likeDo : async (req, res) => {
 		const { articleId } = req.body
 		const { authResult, user } = res.locals
@@ -110,8 +115,8 @@ module.exports = {
 
 		await articleService.likeUpdate(articleId, userNo, 'like')
 		return res.status(201).json({ msg: '추천완료' })
-		
 	},
+	// 추천취소 API
 	unlikeDo : async (req, res) => {
 		const { articleId } = req.body
 		const {authResult, user} = res.locals
@@ -127,6 +132,7 @@ module.exports = {
 		return res.status(201).json({ msg: '추천취소완료' })
 
 	},
+	//댓글 달기 API
     commentPost : async (req, res) => {
         const { user, authResult } = res.locals
 		const { articleId, content } = req.body
@@ -140,6 +146,7 @@ module.exports = {
 
 		res.status(201).json({ msg: '댓글등록이 완료되었습니다' })
     },
+	//댓글 수정 API
     commentUpdate : async (req, res) => {
         const { articleId, commentId, content } = req.body
 		const { authResult, user } = res.locals
@@ -157,6 +164,7 @@ module.exports = {
 
 		res.json({ msg: '댓글수정이 완료되었습니다' })
     },
+	//댓글 삭제 API
     commentDelete : async (req, res) => {
         const { articleId, commentId } = req.body
         const { authResult, user } = res.locals
