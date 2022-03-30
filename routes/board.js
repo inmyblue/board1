@@ -10,6 +10,7 @@ const userModel = require('../models/user')
 const articleValidation = require('../models/validations/articleValidation')
 const sanitizer = require('../models/validations/sanitizehtml')
 const authMiddleware = require('../middlewares/authmiddleware')
+const e = require('express')
 
 /*
     게시글 리스트 페이지 렌더링
@@ -68,10 +69,14 @@ router.post(
 	authMiddleware,
 	async (req, res) => {
 		// 게시글 작성하기
-		const { title, content, nickName, userNo } = req.body
+		const { title, content} = req.body
 		const datetime = moment().format('YYYY-MM-DD HH:mm:ss')
 		const {authResult, user} = res.locals
+		const userNo = user.userNo
+		const nickName = user.nickName
 
+		const chk = await userModel.findOne({userNo:Number(userNo), nickName}).exec()
+		if(!chk) return res.json({msg : "다시 막았지롱!!"})
 		if(authResult != "00") return res.status(401).json({msg : "막았지롱!!"})
 
 		const createArticle = await Article.create({

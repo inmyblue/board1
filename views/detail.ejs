@@ -49,7 +49,7 @@
                     <small><%=article.nickName%></small>
                     <small style="margin-left:30px;"><%=article.datetime%></small>
                 </div>
-                <div class="content" style="min-height : 40vh; border-bottom:1px solid #eee;">
+                <div class="content" style="min-height : 40vh; border-bottom:1px solid #eee; white-space: pre-line;">
                     <%=article.content%>
                 </div>
                 <div class="comment_wrap">
@@ -74,7 +74,7 @@
                                         <span class="delete_post" onclick="commentDelete(<%=article.articleId%>, '<%=comment._id%>')">삭제하기</span>
                                     </span></div>
                                     <div class="com_contents" id="txtComment_<%=i%>"><%=comment.content%></div>
-                                    <div class="com_contents update hidetab" id="comment_<%=i%>"><textarea id="upComment_<%=comment._id%>"rows="3" style="width:90%;"><%=comment.content%></textarea>
+                                    <div class="com_contents update hidetab" id="comment_<%=i%>"><textarea id="upComment_<%=comment._id%>"rows="3" style="width:90%; white-space: pre-line;"><%=comment.content%></textarea>
                                     <button class="btn btn-default" id="aaa" style="width:8%;min-height:5vh;margin-left:2px;" onclick="commentUpdate(<%=article.articleId%>,'<%=comment._id%>')">등록하기</button>
                                     </div>
                                     </div>
