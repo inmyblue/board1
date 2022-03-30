@@ -65,6 +65,7 @@ router.post(
 	'/write',
 	sanitizer.sanitizer,
 	articleValidation.articlePost,
+	authMiddleware,
 	async (req, res) => {
 		// 게시글 작성하기
 		const { title, content, nickName, userNo } = req.body
