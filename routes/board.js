@@ -70,6 +70,9 @@ router.post(
 		// 게시글 작성하기
 		const { title, content, nickName, userNo } = req.body
 		const datetime = moment().format('YYYY-MM-DD HH:mm:ss')
+		const {authResult, user} = res.locals
+
+		if(authResult != "00") res.status(401).json({msg : "막았지롱!!"})
 
 		const createArticle = await Article.create({
 			title,
