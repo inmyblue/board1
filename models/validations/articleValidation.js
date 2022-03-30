@@ -16,8 +16,6 @@ const articleValidation = {
 				.min(5)
 				.required()
 				.error(new Error('글의 내용은 5자이상 입력해야 합니다.')),
-			nickName: Joi.string().min(4).max(30).required(),
-			userNo: Joi.number().required(),
 		})
 		try {
 			await schema.validateAsync(body)
