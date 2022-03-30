@@ -220,14 +220,20 @@ router.delete('/:articleId', authMiddleware, async (req, res) => {
 	}
 })
 
-router.patch('/like', async (req, res) => {
+router.patch('/like', authMiddleware, async (req, res) => {
 	const { articleId, userNo } = req.body
+	const { authResult } = res.locals
+
+	if(authResult !== "00") return res.json({"msg" : '누구냐 너'})
+
 	try {
 		const chk = await Article.findOne({
 			articleId: Number(articleId),
 			userNo: Number(userNo),
 		}).exec()
 		if (chk) return res.json({ msg: '본인 글은 추천할 수 없습니다' })
+
+		if(!userChk) return res.json({msg : ''})
 		await userModel
 			.updateOne(
 				{ userNo: Number(userNo) },
@@ -244,8 +250,11 @@ router.patch('/like', async (req, res) => {
 	}
 })
 
-router.patch('/unlike', async (req, res) => {
+router.patch('/unlike', authMiddleware,  async (req, res) => {
 	const { articleId, userNo } = req.body
+	const {authResult} = res.locals
+
+	if(authResult !== "00") return res.json({"msg" : "누구냐 너"})
 	try {
 		await userModel
 			.updateOne(
