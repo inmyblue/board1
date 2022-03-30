@@ -24,13 +24,11 @@ function writeArticle(){
 function updateArticle(articleId){
     let title = $('#title').val()
     let content = $('#content').val()
-    let nickName = $('#nickName').val()
-    let userNo = $('#userNo').val()
 
     $.ajax({
         type : "PUT",
         url : "/board/write/"+articleId,
-        data : {title, content, nickName, userNo},
+        data : {title, content},
         success : function(response){
             alert(response['msg'])
             window.location.href='/board'
@@ -47,7 +45,7 @@ function deleteArticle(articleId){
     if(confirm('게시글은 삭제하면 복구할수 없습니다 삭제하시겠습니까?') == true){
         $.ajax({
             type : "DELETE",
-            url : "/board/"+articleId,
+            url : "/board/detail/"+articleId,
             data : {},
             success : function(response){
                 alert(response['msg'])
@@ -124,16 +122,11 @@ function commentDelete(articleId, commentId){
     }
 }
 
-function likeDo(articleId, userNo){
-    if(!userNo){
-        alert("로그인한 사용자만 이용하실수 있습니다.") 
-        return window.location.replace("/user")
-    }
-
+function likeDo(articleId){
     $.ajax({
         type : "PATCH",
         url : "/board/like",
-        data : {articleId, userNo},
+        data : {articleId},
         success : function (response){
             alert(response['msg'])
             window.location.reload()
@@ -148,11 +141,11 @@ function likeDo(articleId, userNo){
     })
 }
 
-function unlikeDo(articleId, userNo){
+function unlikeDo(articleId){
     $.ajax({
         type : "PATCH",
         url : "/board/unlike",
-        data : {articleId, userNo},
+        data : {articleId},
         success : function(response){
             alert(response['msg'])
             window.location.reload()

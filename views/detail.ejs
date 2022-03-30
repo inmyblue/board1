@@ -34,10 +34,10 @@
                     <h1><%=article.title%><span style="float : right;">
                     <% if(locals.article.liked == locals.userNo && locals.userNo){ %>
                         <button type="button" class="ctm-btn"
-                        onclick = "unlikeDo(<%=article.articleId%>, <%=locals.userNo%>)">추천취소</button>
+                        onclick = "unlikeDo(<%=article.articleId%>)">추천취소</button>
                     <% } else {%>
                         <button type="button" class="ctm-btn"
-                        onclick = "likeDo(<%=article.articleId%>, <%=locals.userNo%>)">추천하기</button>
+                        onclick = "likeDo(<%=article.articleId%>)">추천하기</button>
                     <% } %>
                     <% if(locals.userNo === article.userNo) {%>
                         <button type="button" class="ctm-btn"

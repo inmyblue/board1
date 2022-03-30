@@ -23,9 +23,10 @@
     "moment": "^2.29.1",
     "mongoose": "^6.2.7",
     "mongoose-sequence": "^5.3.1",
-    "passport": "^0.5.2",
-    "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0",
     "sanitize-html": "^2.7.0"
+  },
+  "devDependencies": {
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.3.0"
   }
 }

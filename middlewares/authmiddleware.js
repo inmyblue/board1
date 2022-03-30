@@ -12,6 +12,7 @@ module.exports = async (req, res, next) => {
 	try {
 		if (!req.cookies.ggactk) {
 			res.locals.authResult = '10'
+			res.locals.user = ''
 		} else {
 			try {
 				const { userNo, nickName } = jwt.verify(

@@ -21,8 +21,8 @@ function register() {
             alert(response['msg'])
             window.location.href="/user"
         },
-        error : function(error){
-            alert(error.responseJSON.msg)
+        error : function(status){
+            alert(status.responseJSON.msg)
         }
     })
 }
@@ -42,8 +42,8 @@ function login() {
             $.cookie('ggactk', response.token, {path:'/'})
             window.location.href="/board"
         },
-        error : function(error){
-            alert("입력하신 정보가 올바르지 않습니다")
+        error : function(status){
+            alert(status.responseJSON.msg)
             window.location.reload()
         }
     })

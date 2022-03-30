@@ -1,8 +1,9 @@
 const express = require("express")
+const routes = require("./routes")
 const connect = require("./models")
 const cors = require("cors")
-const passport = require("passport")
 const cookieParser = require("cookie-parser")
+const { swaggerUi, specs } = require("./swagger")
 const app = express()
 
 // env 불러오기
@@ -12,11 +13,6 @@ require('dotenv').config();
 app.set('views',__dirname+'/views')
 app.set('view engine','ejs')
 app.engine('html', require('ejs').renderFile)
-
-//router
-const boardRouter = require("./routes/board")
-const userRouter = require("./routes/user")
-
 
 //MongoDB Connection
 connect()
@@ -31,12 +27,7 @@ app.use((req, res, next)=>{ //x-Powerd-By 제거
     next();
 });
 app.use(cors())
-app.use(passport.initialize())
-
-app.use("/board", [boardRouter])
-app.use("/user", [userRouter])
-app.get('/', (req, res) => {
-    res.redirect('/board')
-})
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
+app.use('/', routes)
 
 module.exports = app
