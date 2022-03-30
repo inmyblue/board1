@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken")
 
 res.locals.user : 로그인한 유저 정보 전달
 */
-module.exports = async (req, res, next) => {
+module.exports = async (req, res, next) => { 
     try{
         if(!req.cookies.ggactk){
             res.locals.authResult = "10"
@@ -22,7 +22,7 @@ module.exports = async (req, res, next) => {
                     res.locals.authResult = "00"
                 }
             }catch(e){
-                console.log(e)
+                return res.status(401).send({"msg" : "토큰이 유효하지 않습니다 다시 로그인해주세요", "reason" : "tokenVerify"})
             }
         }
         next()

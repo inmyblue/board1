@@ -14,8 +14,12 @@ function writeArticle(){
             alert(response['msg'])
             window.location.href='/board'
         },
-        error : function(error){
-            alert(error.responseJSON.msg)
+        error : function(status){
+            alert(status.responseJSON.msg)
+            if(status.responseJSON.reason == "tokenVerify"){
+                $.removeCookie('ggactk', {path:'/'})
+                window.location.replace('/')
+            }
         }
     })
 }
@@ -32,8 +36,12 @@ function updateArticle(articleId){
         success : function(response){
             alert(response['msg'])
             window.location.href='/board'
-        },error : function(error){
-            alert(error.responseJSON.msg)
+        },error : function(status){
+            alert(status.responseJSON.msg)
+            if(status.responseJSON.reason == "tokenVerify"){
+                $.removeCookie('ggactk', {path:'/'})
+                window.location.replace('/')
+            }
         }
     })
 }
@@ -46,6 +54,13 @@ function deleteArticle(articleId){
             success : function(response){
                 alert(response['msg'])
                 window.location.href='/board'
+            },
+            error : function(status) {
+                alert(status.responseJSON.msg)
+                if(status.responseJSON.reason == "tokenVerify"){
+                    $.removeCookie('ggactk', {path:'/'})
+                    window.location.replace('/')
+                }
             }
         })
     }
@@ -63,14 +78,9 @@ function commentWrite(articleId){
             alert(response['msg'])
             window.location.reload()
         },
-        error : function(status, error){
-            if(status.status == '401'){
-                alert("로그인 하신 후 사용할 수 있습니다.")
-                window.location.href='/user'
-            }
-            if(status.status = '400'){
-                alert(status.responseJSON.msg)
-            }
+        error : function(status){
+            alert("로그인 하신 후 사용할 수 있습니다.")
+            window.location.href='/user'
         }        
     })
 }
@@ -87,6 +97,10 @@ function commentUpdate(articleId, commentId){
         },
         error : function(status){
             alert(status.responseJSON.msg)
+            if(status.responseJSON.reason == "tokenVerify"){
+                $.removeCookie('ggactk', {path:'/'})
+                window.location.replace('/')
+            }
         }
     })
 }
@@ -101,8 +115,12 @@ function commentDelete(articleId, commentId){
                 alert(response["msg"])
                 window.location.reload()
             }, 
-            error : function(response){
-                alert(response["msg"])
+            error : function(status){
+                alert(status.responseJSON.msg)
+                if(status.responseJSON.reason == "tokenVerify"){
+                    $.removeCookie('ggactk', {path:'/'})
+                 window.location.replace('/')
+                }
             }
         })
     }
@@ -121,6 +139,13 @@ function likeDo(articleId, userNo){
         success : function (response){
             alert(response['msg'])
             window.location.reload()
+        },
+        error : function(status){
+            alert(status.responseJSON.msg)
+            if(status.responseJSON.reason == "tokenVerify"){
+                $.removeCookie('ggactk', {path:'/'})
+                window.location.replace('/')
+            }
         }
     })
 }
@@ -133,6 +158,13 @@ function unlikeDo(articleId, userNo){
         success : function(response){
             alert(response['msg'])
             window.location.reload()
+        },
+        error : function(status){
+            alert(status.responseJSON.msg)
+            if(status.responseJSON.reason == "tokenVerify"){
+                $.removeCookie('ggactk', {path:'/'})
+                window.location.replace('/')
+            }
         }
     })
 }

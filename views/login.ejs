@@ -36,11 +36,11 @@
                       <img class="mb-4" src="img/logo.png" alt="" width="300" height="300">
                       <h1 class="h3 mb-3 fw-normal text-center">로그인</h1>
                       <div class="form-floating">
-                        <input type="text" class="form-control" id="userId" placeholder="ID 입력(email)">
+                        <input type="text" class="form-control" id="userId" placeholder="ID 입력(email)" onkeyup="if(window.event.keyCode==13){login()}" >
                         <label for="userId"></label>
                       </div>
                       <div class="form-floating">
-                        <input type="password" class="form-control" id="password" placeholder="Password 입력">
+                        <input type="password" class="form-control" id="password" placeholder="Password 입력" onkeyup="if(window.event.keyCode==13){login()}" >
                         <label for="password"></label>
                       </div>
 

@@ -66,6 +66,13 @@ function getSelf() {
             }
             
             $('#authFunc').append(tmpHtml)
+        },
+        error : function (status){
+            alert(status.responseJSON.msg)
+            if(status.responseJSON.reason == "tokenVerify"){
+                $.removeCookie('ggactk', {path:'/'})
+                window.location.replace('/')
+            }
         }
     }); 
   }

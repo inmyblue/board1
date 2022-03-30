@@ -2,20 +2,31 @@ const express = require("express")
 const router = express.Router()
 const moment = require("moment")
 
-
+// Model
 const Article = require("../models/article")
 const userModel = require("../models/user")
+
+//Middleware
 const articleValidation = require("../models/validations/articleValidation")
 const sanitizer = require("../models/validations/sanitizehtml")
 const authMiddleware = require("../middlewares/authmiddleware")
 
 /*
-    게시글 목록을 불러와서 board.ejs 에 게시글정보를 넘겨주면서 렌더링
+    게시글 리스트 페이지 렌더링
+    datetime 내림차순으로 정렬
+    response : articles
 */
-router.get("/", authMiddleware, async (req, res)=>{
+router.get("/", async (req, res)=>{ 
     const articles = await Article.find().sort({datetime : -1})
     res.status(200).render('board',{ articles })
 })
+
+
+/*
+    게시글작성 페이지 렌더링
+    사용자 인증거쳐서 적합한 사용자만 접근가능
+    response : userNo, nickName
+*/
 
 router.get("/write", authMiddleware, async (req, res) => {
     const {user, authResult} = res.locals
@@ -23,6 +34,7 @@ router.get("/write", authMiddleware, async (req, res) => {
     
     res.render('write', {userNo : user.userNo, nickName : user.nickName})
 })
+
 
 router.get("/write/:articleId", authMiddleware, async (req, res) => {
     const {user, authResult} = res.locals

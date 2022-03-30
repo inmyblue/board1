@@ -75,8 +75,7 @@
                                     </span></div>
                                     <div class="com_contents" id="txtComment_<%=i%>"><%=comment.content%></div>
                                     <div class="com_contents update hidetab" id="comment_<%=i%>"><textarea id="upComment_<%=comment._id%>"rows="3" style="width:90%;"><%=comment.content%></textarea>
-                                    <input type="button" class="btn btn-default" value="등록하기"
-                                        style="width:8%;min-height:5vh;margin-left:2px;" onclick="commentUpdate(<%=article.articleId%>,'<%=comment._id%>')">
+                                    <button class="btn btn-default" id="aaa" style="width:8%;min-height:5vh;margin-left:2px;" onclick="commentUpdate(<%=article.articleId%>,'<%=comment._id%>')">등록하기</button>
                                     </div>
                                     </div>
                             <% } else {%>
@@ -95,7 +94,6 @@
 </html>
 <script>
     $(document).ready(function(){
-        // commentRead(<%=article.articleId%>) // 댓글리스트 가져오기
         $(".hidetab").hide() // 댓글 수정 textarea 숨기기
     })
 </script>
