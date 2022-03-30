@@ -70,10 +70,9 @@ router.post(
 		// 게시글 작성하기
 		const { title, content, nickName, userNo } = req.body
 		const datetime = moment().format('YYYY-MM-DD HH:mm:ss')
-		const { authResult, user } = res.locals
+		const {authResult, user} = res.locals
 
-		if (authResult != '00')
-			return res.status(401).json({ msg: '막았지롱!!' })
+		if(authResult != "00") return res.status(401).json({msg : "막았지롱!!"})
 
 		const createArticle = await Article.create({
 			title,
@@ -98,15 +97,12 @@ router.put(
 				.status(401)
 				.json({ msg: '로그인정보가 올바르지 않습니다' })
 
-		const { user } = res.locals
+		const {user} = res.locals
 		const { articleId } = req.params
 		const { title, content, userNo } = req.body
 		const datetime = moment().format('YYYY-MM-DD HH:mm:ss')
 
-		if (userNo !== user.userNo)
-			return res
-				.status(401)
-				.json({ msg: '작성자만 글을 수정할 수 있습니다' })
+		if(userNo != user.userNo) return res.status(401).json({msg : "작성자만 글을 수정할 수 있습니다"})
 
 		await Article.updateOne(
 			{ articleId: Number(articleId), userNo: Number(userNo) },
@@ -126,10 +122,7 @@ router.post(
 		const { articleId, content } = req.body
 		const datetime = moment().format('YYYY-MM-DD HH:mm:ss')
 
-		if (authResult !== '00')
-			return res
-				.status(401)
-				.json({ msg: '로그인된 사용자만 댓글을 입력할 수 있습니다' })
+		if (authResult !== '00') return res.status(401).json({msg : '로그인된 사용자만 댓글을 입력할 수 있습니다'})
 
 		const commentWrite = await Article.updateOne(
 			{ articleId: Number(articleId) },
@@ -164,7 +157,7 @@ router.patch(
 		const { user } = res.locals
 
 		Article.findOne(
-			{ articleId: Number(articleId), userNo: Number(user.userNo) },
+			{ articleId: Number(articleId), userNo : Number(user.userNo) },
 			function (err, result) {
 				result.comments.id(commentId).content = content
 				result.save()
@@ -179,17 +172,12 @@ router.delete('/comment', authMiddleware, async (req, res) => {
 	const { articleId, commentId } = req.body
 	const { authResult } = res.locals
 
-	if (authResult !== '00')
-		return res.status(401).json({ msg: '로그인된 사용자만 가능합니다' })
-
+	if(authResult !== "00") return res.status(401).json({msg : "로그인된 사용자만 가능합니다"})
+	
 	const { user } = res.locals
 	try {
 		Article.findOne(
-			{
-				articleId: Number(articleId),
-				'comments._id': commentId,
-				userNo: Number(user.userNo),
-			},
+			{ articleId: Number(articleId), 'comments._id': commentId, userNo : Number(user.userNo) },
 			function (err, result) {
 				result.comments.id(commentId).remove()
 				result.save()
@@ -247,11 +235,11 @@ router.patch('/like', authMiddleware, async (req, res) => {
 	const { articleId, userNo } = req.body
 	const { authResult } = res.locals
 
-	if (authResult !== '00') return res.json({ msg: '누구냐 너' })
+	if(authResult !== "00") return res.json({"msg" : '누구냐 너'})
 
-	const { user } = res.locals
+	const {user} = res.locals
 
-	if (userNo !== user.userNo) return res.json({ msg: '누구냐 너' })
+	if(userNo != user.userNo) return res.json({msg : "누구냐 너"})
 
 	try {
 		const chk = await Article.findOne({
@@ -262,7 +250,7 @@ router.patch('/like', authMiddleware, async (req, res) => {
 
 		await userModel
 			.updateOne(
-				{ userNo: Number(userNo) },
+				{ userNo: Number(userNo)},
 				{ $push: { liked: Number(articleId) } }
 			)
 			.exec()
@@ -276,14 +264,15 @@ router.patch('/like', authMiddleware, async (req, res) => {
 	}
 })
 
-router.patch('/unlike', authMiddleware, async (req, res) => {
+router.patch('/unlike', authMiddleware,  async (req, res) => {
 	const { articleId, userNo } = req.body
-	const { authResult } = res.locals
+	const {authResult} = res.locals
 
-	if (authResult !== '00') return res.json({ msg: '누구냐 너' })
-	const { user } = res.locals
+	if(authResult !== "00") return res.json({"msg" : "누구냐 너"})
+	const {user} = res.locals
 
-	if (userNo !== user.userNo) return res.json({ msg: '누구냐 너' })
+	if(userNo != user.userNo) return res.json({msg : "누구냐 너"})
+
 	try {
 		await userModel
 			.updateOne(
