@@ -8,7 +8,7 @@ function writeArticle(){
         type : "POST",
         url : "/board/write",
         data : {
-            title, content, nickName, userNo
+            title, content
         },
         success : function(response){
             alert(response['msg'])
