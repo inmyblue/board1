@@ -72,7 +72,7 @@ router.post(
 		const datetime = moment().format('YYYY-MM-DD HH:mm:ss')
 		const {authResult, user} = res.locals
 
-		if(authResult != "00") res.status(401).json({msg : "막았지롱!!"})
+		if(authResult != "00") return res.status(401).json({msg : "막았지롱!!"})
 
 		const createArticle = await Article.create({
 			title,
@@ -225,6 +225,9 @@ router.patch('/like', authMiddleware, async (req, res) => {
 	const { authResult } = res.locals
 
 	if(authResult !== "00") return res.json({"msg" : '누구냐 너'})
+
+	const {user} = res.locals
+	
 
 	try {
 		const chk = await Article.findOne({
