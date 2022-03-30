@@ -1,8 +1,6 @@
 function writeArticle(){
     let title = $('#title').val()
     let content = $('#content').val()
-    let nickName = $('#nickName').val()
-    let userNo = $('#userNo').val()
 
     $.ajax({
         type : "POST",

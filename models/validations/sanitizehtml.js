@@ -27,7 +27,6 @@ exports.sanitizer = (req, res, next) => {
 	const { title, nickName, content } = req.body
 
 	req.body.title = sanitizeHtml(title, { ...sanitizeOption })
-	req.body.nickName = sanitizeHtml(nickName, { ...sanitizeOption })
 	req.body.content = sanitizeHtml(content, { ...sanitizeOption })
 	next()
 }
