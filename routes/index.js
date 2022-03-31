@@ -8,6 +8,7 @@ router.use('/board', article)
 router.use('/user', user)
 
 router.get('/', (req, res) => {
+    // #swagger.tags = ['article']
     res.redirect('/board')
 })
 

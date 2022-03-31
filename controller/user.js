@@ -3,14 +3,17 @@ const userService = require('../services/userService')
 module.exports = {
     //로그인 페이지 렌더링
     loginRender : (req, res) =>{ 
+        // #swagger.tags = ['user']
         res.render('login')
     },
     //회원가입 페이지 렌더링
     registerRender : (req, res) => {
+        // #swagger.tags = ['user']
         res.render('register')
     },
     // 로그인 API
     login : async (req, res) => {
+        // #swagger.tags = ['user']
         const { userId, password } = req.body
 
         const userChk = await userService.userIdChk(userId)      
@@ -28,6 +31,7 @@ module.exports = {
 	},
     // 회원가입 API
     register : async (req, res) => {
+        // #swagger.tags = ['user']
         const { userId, nickName, password } = req.body
         const hashedPw = await userService.bcrypthash(password)
 
@@ -45,6 +49,7 @@ module.exports = {
 
     // 회원인증 API
     authorization : async (req, res) => {
+        // #swagger.tags = ['user']
         const { authResult } = res.locals
         res.json({ authResult })
     }

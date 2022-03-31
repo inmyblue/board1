@@ -3,7 +3,8 @@ const routes = require("./routes")
 const connect = require("./models")
 const cors = require("cors")
 const cookieParser = require("cookie-parser")
-const { swaggerUi, specs } = require("./swagger")
+const swaggerUi = require("swagger-ui-express");
+const swaggerFile = require("./swagger-output");
 const app = express()
 
 // env 불러오기
@@ -27,7 +28,8 @@ app.use((req, res, next)=>{ //x-Powerd-By 제거
     next();
 });
 app.use(cors())
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile))
+
 app.use('/', routes)
 
 module.exports = app
