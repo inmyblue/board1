@@ -36,7 +36,7 @@ module.exports = {
 				"<script>alert('수정은 작성자만 가능합니다'); location.href='/board';</script>"
 			)
 	},
-	//글 작성 API
+	/* 글 작성 API */
 	writePost : async (req, res) => {
 		const { title, content} = req.body
 		const {authResult, user} = res.locals
@@ -87,6 +87,7 @@ module.exports = {
 		const article = await articleService.articleData(articleId)
 		const userNo = user.userNo
 		const nickName = user.nickName
+		const like = article.liked.includes(userNo)
 
 		if (authResult === '11')
 			return res.send(
@@ -96,6 +97,7 @@ module.exports = {
 			article,
 			userNo,
 			nickName,
+			like
 		})
 	},
 	// 추천하기 API

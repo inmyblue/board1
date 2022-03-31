@@ -10,7 +10,7 @@ const options = {
 		host: 'localhost:3000',
 		basePath: '/',
 	},
-	apis: ['./routes/*.js', './swagger/*'],
+	apis: ['./routes/*.js', './swagger/*', './models/*.js'],
 }
 const specs = swaggereJsdoc(options)
 module.exports = { swaggerUi, specs }
