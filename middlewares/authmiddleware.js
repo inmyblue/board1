@@ -29,12 +29,10 @@ module.exports = async (req, res, next) => {
 					res.locals.authResult = '00'
 				}
 			} catch (e) {
-				return res
-					.status(401)
-					.send({
-						msg: '토큰이 유효하지 않습니다 다시 로그인해주세요',
-						reason: 'tokenVerify',
-					})
+				return res.status(401).send({
+					msg: '토큰이 유효하지 않습니다 다시 로그인해주세요',
+					reason: 'tokenVerify',
+				})
 			}
 		}
 		next()
